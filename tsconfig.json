@@ -12,6 +12,7 @@
     ".expo/types/**/*.ts",
     "expo-env.d.ts",
     "constants/images.js",
-    "constants/icons.js"
+    "constants/icons.js",
+    "context/GlobalProvider.ts"
   ]
 }
