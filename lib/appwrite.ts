@@ -57,9 +57,13 @@ export const createUser = async (
     throw new Error();
   }
 };
-export async function signIn(email: string, password: string) {
+export async function signIn(
+  email: string,
+  password: string,
+  loggingIn?: boolean
+) {
   try {
-    await account.deleteSession("current");
+    if (loggingIn) await account.deleteSession("current");
     const session = await account.createEmailPasswordSession(email, password);
     return session;
   } catch (error) {
@@ -80,6 +84,33 @@ export const getCurrentUser = async () => {
     );
     if (!currentUser) throw Error;
     return currentUser.documents[0];
+  } catch (error) {
+    console.error(error);
+    throw new Error();
+  }
+};
+
+export const getAllPosts = async () => {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId
+    );
+    return posts.documents;
+  } catch (error) {
+    console.error(error);
+    throw new Error();
+  }
+};
+
+export const getLatestPosts = async () => {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(7)]
+    );
+    return posts.documents;
   } catch (error) {
     console.error(error);
     throw new Error();
