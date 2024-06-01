@@ -1,9 +1,10 @@
+import { itemType } from "@/components/Trending";
 import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { Models } from "react-native-appwrite";
 
-const useAppwrite = (fn: () => Promise<Models.Document[]>) => {
-  const [data, setData] = useState<Models.Document[]>([]);
+const useAppwrite = (fn: () => Promise<itemType[]>) => {
+  const [data, setData] = useState<itemType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchData = async () => {

@@ -4,12 +4,24 @@ import {
   FlatList,
   TouchableOpacity,
   ImageBackground,
+  ViewToken,
 } from "react-native";
-import React, { useState } from "react";
+import React, { ReactElement, useRef, useState } from "react";
 import * as Animatable from "react-native-animatable";
 import { Image } from "react-native";
 import { icons } from "@/constants";
 import { Video, ResizeMode } from "expo-av";
+
+export interface itemType {
+  $id: string;
+  title: string;
+  thumbnail: string;
+  video: string;
+  users: {
+    username: string;
+    avatar: string;
+  };
+}
 
 const zoomIn = {
   from: {
@@ -29,17 +41,33 @@ const zoomOut = {
   },
 };
 
-const TrendingItem = ({ activeItem, item }) => {
+const TrendingItem = ({
+  activeItem,
+  item,
+}: {
+  activeItem: itemType | string;
+  item: itemType;
+}) => {
+  console.log(Object.keys(item));
+  const video = useRef(null);
   const [play, setPlay] = useState(false);
   return (
     <Animatable.View
       className="mr-5"
+      //  scale is not an animatable property in this library. Added to types for just this project
       animation={activeItem === item.$id ? zoomIn : zoomOut}
       duration={500}
     >
       {play ? (
         <Video
-          source={{ uri: item.video }}
+          ref={video}
+          source={{
+            uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+
+            // Videos from tutorial appear to be in the wrong format. Will not run on IOS or Android
+
+            // uri: item.video,
+          }}
           className="w-52 h-72 rounded-[35px] mt-3 bg-white/10"
           resizeMode={ResizeMode.CONTAIN}
           useNativeControls
@@ -76,11 +104,15 @@ const TrendingItem = ({ activeItem, item }) => {
   );
 };
 
-const Trending = ({ posts = [] }: { posts: object[] }) => {
-  const [activeItem, setActiveItem] = useState(posts[0]);
+const Trending = ({ posts = [] }: { posts: itemType[] }) => {
+  const [activeItem, setActiveItem] = useState<itemType | string>(posts[0]);
 
-  const viewableItemsChanged = ({ viewableItems }) => {
-    if (viewableItems.length > 0) {
+  const viewableItemsChanged = ({
+    viewableItems,
+  }: {
+    viewableItems: ViewToken[];
+  }) => {
+    if (viewableItems.length > 0 && viewableItems[0].key) {
       setActiveItem(viewableItems[0].key);
     }
   };

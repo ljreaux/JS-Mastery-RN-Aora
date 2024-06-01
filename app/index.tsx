@@ -1,5 +1,5 @@
 import { Image, Text, View } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,11 +7,14 @@ import { ScrollView } from "react-native";
 import { images } from "../constants";
 import CustomButton from "@/components/CustomButton";
 import { useGlobalContext } from "../context/GlobalProvider";
+import { Audio } from "expo-av";
 
 export default function App() {
   const { isLoading, isLoggedIn } = useGlobalContext();
   if (!isLoading && isLoggedIn) return <Redirect href="/home" />;
-
+  useEffect(() => {
+    Audio.setAudioModeAsync({ playsInSilentModeIOS: true });
+  }, []);
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView contentContainerStyle={{ height: "100%" }}>

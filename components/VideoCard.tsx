@@ -2,8 +2,9 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { icons } from "@/constants";
 import { Models } from "react-native-appwrite";
+import { itemType } from "./Trending";
 
-interface VideoCardType extends Models.Document {
+export interface VideoCardType extends Models.Document {
   video: {
     title: string;
     thumbnail: string;
@@ -22,7 +23,9 @@ const VideoCard = ({
     video,
     users: { username, avatar },
   },
-}: VideoCardType) => {
+}: {
+  video: itemType;
+}) => {
   const [play, setPlay] = useState(false);
 
   return (

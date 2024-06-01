@@ -1,3 +1,4 @@
+import { itemType } from "@/components/Trending";
 import {
   Client,
   Account,
@@ -96,7 +97,7 @@ export const getAllPosts = async () => {
       config.databaseId,
       config.videoCollectionId
     );
-    return posts.documents;
+    return posts.documents as unknown as itemType[];
   } catch (error) {
     console.error(error);
     throw new Error();
@@ -110,7 +111,7 @@ export const getLatestPosts = async () => {
       config.videoCollectionId,
       [Query.orderDesc("$createdAt"), Query.limit(7)]
     );
-    return posts.documents;
+    return posts.documents as unknown as itemType[];
   } catch (error) {
     console.error(error);
     throw new Error();

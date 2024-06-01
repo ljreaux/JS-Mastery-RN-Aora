@@ -6,7 +6,6 @@ import SearchInput from "@/components/SearchInput";
 import Trending from "@/components/Trending";
 import EmptyState from "@/components/EmptyState";
 import { getAllPosts, getLatestPosts } from "@/lib/appwrite";
-import { Models } from "react-native-appwrite";
 import useAppwrite from "@/hooks/useAppwrite";
 import VideoCard from "@/components/VideoCard";
 
