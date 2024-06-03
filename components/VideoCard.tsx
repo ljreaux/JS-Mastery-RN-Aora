@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { icons } from "@/constants";
 import { Models } from "react-native-appwrite";
 import { itemType } from "./Trending";
+import { ResizeMode, Video } from "expo-av";
 
 export interface VideoCardType extends Models.Document {
   video: {
@@ -59,7 +60,28 @@ const VideoCard = ({
         </View>
       </View>
       {play ? (
-        <Text className="text-white">Playing</Text>
+        <Video
+          source={{
+            uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+
+            // Videos from tutorial appear to be in the wrong format. Will not run on IOS or Android
+
+            // uri: video,
+          }}
+          className="w-full h-60 rounded-xl mt-3"
+          resizeMode={ResizeMode.CONTAIN}
+          useNativeControls
+          shouldPlay
+          onError={(error) => {
+            console.log(error);
+          }}
+          onPlaybackStatusUpdate={(playbackStatus) => {
+            if (playbackStatus.isLoaded)
+              if (playbackStatus.didJustFinish) {
+                setPlay(false);
+              }
+          }}
+        />
       ) : (
         <TouchableOpacity
           activeOpacity={0.7}

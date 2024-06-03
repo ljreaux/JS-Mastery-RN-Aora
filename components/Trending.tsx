@@ -48,7 +48,6 @@ const TrendingItem = ({
   activeItem: itemType | string;
   item: itemType;
 }) => {
-  console.log(Object.keys(item));
   const video = useRef(null);
   const [play, setPlay] = useState(false);
   return (

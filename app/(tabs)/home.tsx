@@ -8,6 +8,7 @@ import EmptyState from "@/components/EmptyState";
 import { getAllPosts, getLatestPosts } from "@/lib/appwrite";
 import useAppwrite from "@/hooks/useAppwrite";
 import VideoCard from "@/components/VideoCard";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 const Home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
@@ -18,6 +19,8 @@ const Home = () => {
     await refetch();
     setRefreshing(false);
   };
+
+  const { user } = useGlobalContext();
 
   return (
     <SafeAreaView className="bg-primary h-full">
@@ -33,7 +36,7 @@ const Home = () => {
                   Welcome Back
                 </Text>
                 <Text className="text-2xl font-psemibold text-white">
-                  Larry
+                  {user?.username}
                 </Text>
               </View>
               <View className="mt-1.5">
@@ -44,7 +47,7 @@ const Home = () => {
                 />
               </View>
             </View>
-            <SearchInput value="" handleChangeText={(e) => e} />
+            <SearchInput />
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-gray-100 text-lg font-pregular mb-3">
                 Latest Videos

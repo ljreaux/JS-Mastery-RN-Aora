@@ -25,6 +25,7 @@ const SignUp = () => {
     }
     try {
       const result = await createUser(form.email, form.password, form.username);
+
       setUser(result);
       setIsLoggedIn(true);
 
