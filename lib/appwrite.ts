@@ -11,15 +11,7 @@ import {
   Storage,
   ImageGravity,
 } from "react-native-appwrite";
-export const config = {
-  endpoint: "https://cloud.appwrite.io/v1",
-  platform: "com.jsm.aora",
-  projectId: "66529923002689d9acbe",
-  databaseId: "66529a2f002f0e562f25",
-  userCollectionId: "66529a5600098dda1a36",
-  videoCollectionId: "66529a770008199a166c",
-  storageId: "66529bf900060f053e76",
-};
+import { config } from "./appwriteConfig";
 
 interface ValidFormType extends FormType {
   userId: string;
