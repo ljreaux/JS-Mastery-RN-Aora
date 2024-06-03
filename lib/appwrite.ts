@@ -1,6 +1,6 @@
 import { FormType } from "@/app/(tabs)/create";
 import { itemType } from "@/components/Trending";
-import { DocumentPickerAsset } from "expo-document-picker";
+import { ImagePickerAsset } from "expo-image-picker";
 import {
   Client,
   Account,
@@ -99,7 +99,8 @@ export const getAllPosts = async () => {
   try {
     const posts = await databases.listDocuments(
       config.databaseId,
-      config.videoCollectionId
+      config.videoCollectionId,
+      [Query.orderDesc("$createdAt")]
     );
     return posts.documents as unknown as itemType[];
   } catch (error) {
@@ -187,13 +188,13 @@ export const getFilePreview = async (fileId: string, type: string) => {
 };
 
 export const uploadFile = async (
-  file: DocumentPickerAsset,
+  file: ImagePickerAsset,
   type: "image" | "video"
 ) => {
   if (!file) return;
 
-  const { mimeType, size = 0, ...rest } = file;
-  const asset = { type: mimeType || "", size, ...rest };
+  const { fileName, mimeType = "", fileSize: size = 0, uri = "" } = file;
+  const asset = { name: fileName || "", type: mimeType, size, uri };
 
   try {
     const uploadedFile = await storage.createFile(
